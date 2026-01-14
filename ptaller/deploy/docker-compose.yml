@@ -3,5 +3,7 @@ services:
     build:
       context: ..
       dockerfile: ./deploy/Dockerfile
-    image: 
+    ports:
+      - "8064:80"
+    image: franparra-ptaller-webserver:1.0
 

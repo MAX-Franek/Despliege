@@ -5,5 +5,5 @@ services:
       dockerfile: ./deploy/Dockerfile
     ports:
       - "8060:80"
-    image: franparra-ptaller-webserver:1.0
+    image: franparradaw-ptaller-webserver:1.0
 

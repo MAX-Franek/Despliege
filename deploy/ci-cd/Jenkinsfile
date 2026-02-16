@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     stages {
-        stage('Clonar repo ok'){
-            steps{
-                // Agrega el parámetro credentialsId
-                git branch: 'main', 
-                    credentialsId: 'fran', 
-                    url: 'https://github.com/MAX-Franek/Despliege.git'
-            }
-        }
+        // stage('Clonar repo ok'){
+        //     steps{
+        //         // Agrega el parámetro credentialsId
+        //         git branch: 'main', 
+        //             credentialsId: 'fran', 
+        //             url: 'https://github.com/MAX-Franek/Despliege.git'
+        //     }
+        // }
         // stage('Checkout'){
         //     steps {
         //         echo "Repo clonado los caracole"

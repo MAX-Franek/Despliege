@@ -20,6 +20,7 @@ pipeline {
             steps {
                 sh 'git rev-parse --short HEAD'
                 sh 'sleep 300'
+                echo "hola"
             }
         }
     }

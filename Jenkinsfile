@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout'){
             steps {
-                echo "Repo clonado"
+                echo "Repo clonado lo"
                 sh 'ls -la'
             }
         }

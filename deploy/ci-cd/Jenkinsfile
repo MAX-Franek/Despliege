@@ -19,6 +19,7 @@ pipeline {
         stage('Info'){
             steps {
                 sh 'git rev-parse --short HEAD'
+                sh 'sleep 300'
             }
         }
     }

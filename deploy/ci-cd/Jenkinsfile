@@ -4,7 +4,10 @@ pipeline {
     stages {
         stage('Clonar repo ok'){
             steps{
-                git branch: 'main', url: 'https://github.com/MAX-Franek/Despliege.git'
+                // Agrega el parámetro credentialsId
+                git branch: 'main', 
+                    credentialsId: 'fran', 
+                    url: 'https://github.com/MAX-Franek/Despliege.git'
             }
         }
         // stage('Checkout'){

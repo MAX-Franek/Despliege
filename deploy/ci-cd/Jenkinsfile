@@ -1,26 +1,54 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            yaml """
+                apiVersion: v1
+                kind: Pod
+                spec:
+                    containers:
+                    - name: kaniko
+                        image: gcr.io/kaniko-project/executor:debug
+                        command:
+                            - /busybox/cat
+                        tty: true
+                        volumeMounts:
+                            - name: docker-config
+                                mountPath: /kaniko/.docker
+                            
+                        
+                    volumes:
+                        -name: docker-config
+                            secret:
+                                secretName: dockerhub-secret
+                """
+        }
+    }
+
+    environment {
+        IMAGE = "franparradaw/ptaller-webserver:1.0"
+    }
 
     stages {
-        // stage('Clonar repo ok'){
-        //     steps{
-        //         // Agrega el parámetro credentialsId
-        //         git branch: 'main', 
-        //             credentialsId: 'fran', 
-        //             url: 'https://github.com/MAX-Franek/Despliege.git'
-        //     }
-        // }
-        // stage('Checkout'){
-        //     steps {
-        //         echo "Repo clonado los caracole"
-        //         sh 'ls -la'
-        //     }
-        // }
-        stage('Info'){
+
+        stage('Checkout') {
             steps {
-                sh 'git rev-parse --short HEAD'
-                sh 'sleep 300'
-                echo "hola"
+                checkout scm
+            }
+        }
+
+        stage('Build & Push Image'){
+            steps {
+                container('kaniko'){
+                    sh """
+                    /kaniko/executor \
+                        --context `pwd`\
+                        --dockerfile deploy/build_img/Dockerfile \
+                        --destination franparradaw/ptaller-webserver:${GIT_COMMIT} \
+                        --destination franparradaw/ptaller-webserver:latest \
+                        --snapshot-node=redo \
+                        --single-snapshot
+                    """
+                }
             }
         }
     }

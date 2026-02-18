@@ -23,7 +23,6 @@ spec:
     }
 
     environment {
-        // Asegúrate de que este nombre sea correcto para tu Docker Hub
         IMAGE = "franparradaw/ptaller-webserver" 
     }
 

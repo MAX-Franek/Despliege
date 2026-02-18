@@ -2,34 +2,32 @@ pipeline {
     agent {
         kubernetes {
             yaml """
-                apiVersion: v1
-                kind: Pod
-                spec:
-                    containers:
-                    - name: kaniko
-                        image: gcr.io/kaniko-project/executor:debug
-                        command:
-                            - /busybox/cat
-                        tty: true
-                        volumeMounts:
-                            - name: docker-config
-                                mountPath: /kaniko/.docker
-                            
-                        
-                    volumes:
-                        -name: docker-config
-                            secret:
-                                secretName: dockerhub-secret
-                """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug
+    command:
+    - /busybox/cat
+    tty: true
+    volumeMounts:
+    - name: docker-config
+      mountPath: /kaniko/.docker
+  volumes:
+  - name: docker-config
+    secret:
+      secretName: dockerhub-secret
+"""
         }
     }
 
     environment {
-        IMAGE = "franparradaw/ptaller-webserver:1.0"
+        // Asegúrate de que este nombre sea correcto para tu Docker Hub
+        IMAGE = "franparradaw/ptaller-webserver" 
     }
 
     stages {
-
         stage('Checkout') {
             steps {
                 checkout scm
@@ -41,10 +39,10 @@ pipeline {
                 container('kaniko'){
                     sh """
                     /kaniko/executor \
-                        --context `pwd`\
+                        --context `pwd` \
                         --dockerfile deploy/build_img/Dockerfile \
-                        --destination franparradaw/ptaller-webserver:${GIT_COMMIT} \
-                        --destination franparradaw/ptaller-webserver:latest \
+                        --destination ${IMAGE}:${GIT_COMMIT} \
+                        --destination ${IMAGE}:latest \
                         --snapshot-mode=redo \
                         --single-snapshot
                     """

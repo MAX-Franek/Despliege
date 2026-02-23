@@ -8,7 +8,7 @@ spec:
 
   source:
     repoURL: https://github.com/MAX-Franek/Despliege.git
-    targetRevision: master
+    targetRevision: main
     path: deploy/kubernetes/helm
     helm:
       valueFiles::

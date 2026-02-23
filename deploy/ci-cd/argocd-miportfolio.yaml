@@ -9,9 +9,9 @@ spec:
   source:
     repoURL: https://github.com/MAX-Franek/Despliege.git
     targetRevision: main
-    path: deploy/kubernetes/helm
+    path: deploy/miportfolio
     helm:
-      valueFiles::
+      valueFiles:
         - values.yaml
 
     destination:

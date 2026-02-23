@@ -13,11 +13,9 @@ spec:
       labels:
         app: miportfolio
     spec:
-      imagePullSecrets:
-        - name: regcred
       containers:
         - name: miportfolio
-          image: franparradaw/ptaller-webserver:1.0
+          image: franparradaw/ptaller-webserver:latest
           ports:
             - containerPort: 80
           resources:

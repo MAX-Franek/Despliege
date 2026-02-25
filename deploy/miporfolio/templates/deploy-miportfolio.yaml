@@ -13,9 +13,13 @@ spec:
       labels:
         app: miportfolio
     spec:
+      # AQUÍ ESTÁ LA MAGIA: Le decimos que use tu secreto de Docker Hub
+      imagePullSecrets:
+        - name: regcred
       containers:
         - name: miportfolio
           image: franparradaw/ptaller-webserver:latest
+          imagePullPolicy: Always # Obliga a descargar siempre la última versión de Jenkins
           ports:
             - containerPort: 80
           resources:

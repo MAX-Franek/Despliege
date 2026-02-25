@@ -63,7 +63,7 @@ stage('Update Helm Chart & Push to Git') {
             
                     // 3. Configuramos Git, hacemos el commit y usamos credenciales para subir
                     // Aquí usamos withCredentials para que Jenkins inyecte tu token de GitHub
-                    withCredentials([usernamePassword(credentialsId: 'github-cred', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                    withCredentials([usernamePassword(credentialsId: 'fran', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                         sh """
                             git config user.name "Jenkins CI"
                             git config user.email "jenkins@tuservidor.com"

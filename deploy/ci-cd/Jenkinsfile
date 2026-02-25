@@ -48,5 +48,31 @@ spec:
                 }
             }
         }
+stage('Update Helm Chart & Push to Prod') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'fran', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
+                        sh """
+                            # 1. Traemos y nos movemos directamente a la rama de producción (prod)
+                            git fetch origin prod
+                            git checkout prod
+                            git pull origin prod
+
+                            # 2. Actualizamos el tag con el commit que acabamos de construir
+                            sed -i 's/tag: .*/tag: \"${GIT_COMMIT}\"/' deploy/miporfolio/values.yaml
+                            
+                            # 3. Guardamos el cambio
+                            git config user.name "Jenkins CI"
+                            git config user.email "jenkins@tuservidor.com"
+                            git add deploy/miporfolio/values.yaml
+                            git commit -m "Deploy: Update image to ${GIT_COMMIT} [skip ci]"
+                            
+                            # 4. Empujamos a la rama prod (usando \\$ para ocultar el secreto a Jenkins)
+                            git push https://\$GIT_USER:\$GIT_PASS@github.com/MAX-Franek/Despliege.git prod
+                        """
+                    }
+                }
+            }
+        }
     }
 }

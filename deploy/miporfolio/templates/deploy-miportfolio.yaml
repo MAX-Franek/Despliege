@@ -18,7 +18,7 @@ spec:
         - name: regcred
       containers:
         - name: miportfolio
-          image: franparradaw/ptaller-webserver:latest
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: Always # Obliga a descargar siempre la última versión de Jenkins
           ports:
             - containerPort: 80

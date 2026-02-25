@@ -71,7 +71,7 @@ stage('Update Helm Chart & Push to Git') {
                             git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
                             
                             # Subimos el cambio usando el token para autenticarnos
-                            git push https://${GIT_USER}:${GIT_PASS}@github.com/MAX-Franek/Despliege.git HEAD:main
+                            git push https://${GIT_USER}:${GIT_PASS}@github.com/MAX-Franek/Despliege.git HEAD:prod
                         """
                     }
                 }

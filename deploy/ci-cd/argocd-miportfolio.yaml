@@ -8,8 +8,8 @@ spec:
 
   source:
     repoURL: https://github.com/MAX-Franek/Despliege.git
-    targetRevision: main
-    path: deploy/miportfolio
+    targetRevision: prod
+    path: deploy/miporfolio
     helm:
       valueFiles:
         - values.yaml

@@ -60,7 +60,7 @@ spec:
                     git config user.email "[EMAIL_ADDRESS]"
                     git add deploy/miporfolio/values.yaml
                     git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
-                    git push origin mainp
+                    git push origin main
                     """
                 }
             }

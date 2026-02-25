@@ -48,30 +48,27 @@ spec:
                 }
             }
         }
-stage('Update Helm Chart & Push to Git') {
+stage('Update Helm Chart & Push to Prod') {
             steps {
                 script {
-                    // 1. Nos aseguramos de estar en la rama correcta ANTES de editar nada
-                    // Cambia 'main' por 'prod' si esa es tu rama de producción real.
-                    sh """
-                        git checkout main
-                        git pull origin main
-                    """
-
-                    // 2. Cambiamos el tag en el values.yaml
-                    sh "sed -i 's/tag: .*/tag: \"${GIT_COMMIT}\"/' deploy/miporfolio/values.yaml"
-            
-                    // 3. Configuramos Git, hacemos el commit y usamos credenciales para subir
-                    // Aquí usamos withCredentials para que Jenkins inyecte tu token de GitHub
                     withCredentials([usernamePassword(credentialsId: 'fran', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
                         sh """
+                            # 1. Traemos y nos movemos directamente a la rama de producción (prod)
+                            git fetch origin prod
+                            git checkout prod
+                            git pull origin prod
+
+                            # 2. Actualizamos el tag con el commit que acabamos de construir
+                            sed -i 's/tag: .*/tag: \"${GIT_COMMIT}\"/' deploy/miporfolio/values.yaml
+                            
+                            # 3. Guardamos el cambio
                             git config user.name "Jenkins CI"
                             git config user.email "jenkins@tuservidor.com"
                             git add deploy/miporfolio/values.yaml
-                            git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
+                            git commit -m "Deploy: Update image to ${GIT_COMMIT} [skip ci]"
                             
-                            # Subimos el cambio usando el token para autenticarnos
-                            git push https://${GIT_USER}:${GIT_PASS}@github.com/MAX-Franek/Despliege.git HEAD:prod
+                            # 4. Empujamos a la rama prod (usando \\$ para ocultar el secreto a Jenkins)
+                            git push https://\$GIT_USER:\$GIT_PASS@github.com/MAX-Franek/Despliege.git prod
                         """
                     }
                 }

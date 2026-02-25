@@ -48,5 +48,22 @@ spec:
                 }
             }
         }
+        stage('Update Helm Chart & Push to Git') {
+            steps {
+                script {
+                    // Cambiar el tag en el values.yaml usando sed
+                    sh "sed -i 's/tag: .*/tag: \"${GIT_COMMIT}\"/' deploy/miporfolio/values.yaml"
+            
+                    // Configurar Git y subir los cambios
+                    sh """
+                    git config user.name "Jenkins CI"
+                    git config user.email "[EMAIL_ADDRESS]"
+                    git add deploy/miporfolio/values.yaml
+                    git commit -m "Update image tag to ${GIT_COMMIT} [skip ci]"
+                    git push origin prod
+                    """
+                }
+            }
+        }
     }
 }

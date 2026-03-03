@@ -1,11 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Mi Portafolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Ejemplo de cambio aa</h1>
+    <nav>
+        <div class="logo">MiPortafolio.</div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#proyectos">Proyectos</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <div class="burger">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </div>
+    </nav>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Hola, soy <span class="highlight">Tu Nombre</span></h1>
+            <p>Desarrollador Web | Creando soluciones digitales increíbles.</p>
+            <a href="#proyectos" class="btn">Ver mis trabajos</a>
+        </div>
+    </section>
+
+    <section id="proyectos" class="projects">
+        <h2>Mis Proyectos</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <div class="project-img">🖼️ Imagen del Proyecto</div>
+                <h3>E-commerce</h3>
+                <p>Tienda online completa con carrito de compras y pasarela de pagos simulada.</p>
+                <a href="#" class="btn-small">Ver código</a>
+            </div>
+            <div class="project-card">
+                <div class="project-img">🖼️ Imagen del Proyecto</div>
+                <h3>App del Clima</h3>
+                <p>Aplicación en tiempo real que consume una API externa para mostrar el clima global.</p>
+                <a href="#" class="btn-small">Ver código</a>
+            </div>
+            <div class="project-card">
+                <div class="project-img">🖼️ Imagen del Proyecto</div>
+                <h3>Dashboard Admin</h3>
+                <p>Panel de administración interactivo con gráficos y tablas de datos dinámicas.</p>
+                <a href="#" class="btn-small">Ver código</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact">
+        <h2>Trabajemos Juntos</h2>
+        <form id="contact-form">
+            <input type="text" id="name" placeholder="Tu Nombre" required>
+            <input type="email" id="email" placeholder="Tu Correo" required>
+            <textarea id="message" rows="5" placeholder="Tu Mensaje" required></textarea>
+            <button type="submit" class="btn">Enviar Mensaje</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Tu Nombre. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

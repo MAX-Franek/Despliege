@@ -83,7 +83,7 @@ spec:
                 container('kubectl') {
                     sh '''
                         echo "Avisando a ArgoCD para que sincronice inmediatamente..."
-                        kubectl annotate application miportfolio -n argocd argocd.argoproj.io/refresh=hard --overwrite
+                        kubectl annotate application miportfolio -n argocd argocd.argoproj.io/refresh=hard --overwrite --v=6
                     '''
                 }
             }

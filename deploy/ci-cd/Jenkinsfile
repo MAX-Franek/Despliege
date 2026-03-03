@@ -14,6 +14,12 @@ spec:
     volumeMounts:
     - name: docker-config
       mountPath: /kaniko/.docker
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command:
+    - sleep
+    args:
+    - infinity
   volumes:
   - name: docker-config
     secret:
@@ -48,30 +54,38 @@ spec:
                 }
             }
         }
-stage('Update Helm Chart & Push to Prod') {
+        
+        stage('Update Helm Chart & Push to Prod') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'fran', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PASS')]) {
-                        // ¡OJO AQUÍ! Ahora usamos TRES COMILLAS SIMPLES: '''
                         sh '''
-                            # 1. Traemos la rama prod
                             git fetch origin prod
                             git checkout prod
                             git pull origin prod
 
-                            # 2. Actualizamos el tag (usamos la variable de entorno de Bash)
                             sed -i "s/tag: .*/tag: \\"${GIT_COMMIT}\\"/" deploy/miporfolio/values.yaml
                             
-                            # 3. Guardamos el cambio
                             git config user.name "Jenkins CI"
                             git config user.email "jenkins@tuservidor.com"
                             git add deploy/miporfolio/values.yaml
                             git commit -m "Deploy: Update image to ${GIT_COMMIT} [skip ci]"
                             
-                            # 4. Empujamos a la rama prod (Bash inyectará los secretos aquí)
                             git push https://${GIT_USER}:${GIT_PASS}@github.com/MAX-Franek/Despliege.git prod
                         '''
                     }
+                }
+            }
+        }
+
+        // --- ¡NUEVO STAGE AQUÍ! ---
+        stage('Force ArgoCD Sync') {
+            steps {
+                container('kubectl') {
+                    sh '''
+                        echo "Avisando a ArgoCD para que sincronice inmediatamente..."
+                        kubectl annotate application miportfolio -n argocd argocd.argoproj.io/refresh=hard --overwrite
+                    '''
                 }
             }
         }

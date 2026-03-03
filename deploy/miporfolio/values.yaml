@@ -11,7 +11,7 @@ image:
   # This sets the pull policy for images.
   pullPolicy: Always # Mejor poner Always cuando usamos 'latest'
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "ea127931bc83466076737394c427e14e36c0aed4"
+  tag: "1b569f320ae9d2a6b3e7f6d10fe3059156fcd0df"
 
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets:
